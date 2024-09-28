@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/agtabesh/lsh"
@@ -61,7 +62,22 @@ func AddContactsToLSH(instance *lsh.LSH, contacts []Contact) {
 
 // TransformContact transforms a Contact struct into a types.Vector
 func TransformContact(contact Contact) types.Vector {
-	fullName := fmt.Sprintf("%s %s", contact.FirstName, contact.LastName)
-	vectorID := types.VectorID(fullName) // Use the VectorID constructor
-	return types.Vector{vectorID: 1.0}
+	// Create a new vector
+	vector := make(types.Vector)
+
+	// Split the first and last name into meaningful parts (e.g., characters or words)
+	firstNameParts := strings.Split(contact.FirstName, "")
+	lastNameParts := strings.Split(contact.LastName, "")
+
+	// Use characters or positions as vector IDs
+	for i, part := range firstNameParts {
+		vectorID := types.VectorID(fmt.Sprintf("first_name_char_%d_%s", i, part))
+		vector[vectorID] = 1.0 // Assigning a weight of 1.0 to each character (can be adjusted)
+	}
+	for i, part := range lastNameParts {
+		vectorID := types.VectorID(fmt.Sprintf("last_name_char_%d_%s", i, part))
+		vector[vectorID] = 1.0
+	}
+
+	return vector
 }

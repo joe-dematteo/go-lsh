@@ -45,7 +45,7 @@ func main() {
 	utils.AddContactsToLSH(instance, contacts)
 
 	// Search logic
-	searchTerm := "Chantalle Janie Norene Joellen"                                  // Example: Search for contacts with last name "Chantalle"
+	searchTerm := "Chantalle"                                                       // Example: Search for contacts with last name "Chantalle"
 	searchTermVector := utils.TransformContact(utils.Contact{LastName: searchTerm}) // Create a vector for the search term
 
 	fmt.Println("searchTermVector:", searchTermVector)
